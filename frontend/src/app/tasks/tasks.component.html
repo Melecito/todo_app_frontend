@@ -1,0 +1,96 @@
+<!-- Fondo general -->
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 dark:from-gray-900 dark:to-gray-800 flex flex-col">
+
+  <!-- 🔹 Navbar -->
+  <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
+      <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Mis Tareas</h1>
+      <button
+        (click)="logout()"
+        class="text-sm font-medium text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-all duration-200">
+        Cerrar sesión
+      </button>
+    </div>
+  </nav>
+
+  <!-- 🔹 Contenedor principal -->
+  <div class="flex-grow flex justify-center items-center p-6">
+    <div
+      class="backdrop-blur-lg bg-white/80 dark:bg-gray-800/80 shadow-2xl rounded-3xl p-8 w-full max-w-2xl border border-gray-200 dark:border-gray-700">
+
+      <!-- Encabezado -->
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">
+          Lista de Tareas
+        </h2>
+        <button
+          (click)="openCreateTask()"
+          class="flex items-center gap-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg shadow transition-all duration-200">
+          <span class="material-icons text-sm">add</span>
+          Nueva
+        </button>
+      </div>
+
+      <!-- Cargando -->
+      <div *ngIf="loading()" class="text-center text-gray-600 dark:text-gray-400">
+        Cargando tareas...
+      </div>
+
+      <!-- Lista de tareas -->
+      <ul *ngIf="!loading() && tasks().length > 0" class="space-y-4">
+  <li
+    *ngFor="let task of tasks()"
+    class="flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-800 rounded-xl px-4 py-3 shadow-sm">
+
+    <!-- Título y descripción -->
+    <div class="flex items-start gap-3 w-full">
+      <input
+        type="checkbox"
+        [checked]="task.completed"
+        (change)="toggleCompleted(task)"
+        class="mt-1 w-5 h-5 accent-green-500 cursor-pointer" />
+
+      <div class="flex flex-col w-full">
+        <span
+          class="text-lg font-semibold"
+          [ngClass]="task.completed ? 'text-green-400 line-through' : 'text-gray-100'">
+          {{ task.title }}
+        </span>
+
+        <span *ngIf="task.description" class="text-gray-400 text-sm mt-1">
+          {{ task.description }}
+        </span>
+
+        <span
+          [ngClass]="task.completed ? 'text-green-400' : 'text-yellow-400'"
+          class="text-xs font-semibold mt-1">
+          {{ task.completed ? 'Completada' : 'Pendiente' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="flex gap-2 mt-3 md:mt-0">
+      <button
+        (click)="editTask(task)"
+        class="text-white bg-amber-500 hover:bg-amber-600 px-3 py-1 rounded-md text-sm font-semibold shadow">
+        ✏️ Editar
+      </button>
+      <button
+        (click)="deleteTask(task.id)"
+        class="text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md text-sm font-semibold shadow">
+        🗑️ Eliminar
+      </button>
+    </div>
+  </li>
+</ul>
+
+
+      <!-- Sin tareas -->
+      <div *ngIf="!loading() && tasks().length === 0" class="text-center text-gray-500 dark:text-gray-400 mt-4">
+        No tienes tareas registradas.
+      </div>
+
+    </div>
+  </div>
+</div>
