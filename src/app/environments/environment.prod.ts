@@ -3,6 +3,7 @@
 
 
 export const environment = {
-  production: true, // Debe ser 'true' para producción
-  apiUrl: "http://3.149.11.20:8000/api"
-}
+  production: true,
+  apiUrl: "http://3.144.30.145:8000/api/"
+};
+
